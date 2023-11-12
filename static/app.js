@@ -19,7 +19,7 @@ function displayStats(stats) {
     table += '<tr><th>Year</th><th>PPG</th><th>APG</th><th>RPG</th></tr>';
 
     stats.forEach(function(row) {
-        table += `<tr><td>${row.Year}</td><td>${row.PPG}</td><td>${row.APG}</td><td>${row.RPG}</td></tr>`;
+        table += `<tr><td>${row.YEAR}</td><td>${row.PPG}</td><td>${row.APG}</td><td>${row.RPG}</td></tr>`;
     });
 
     table += '</table>';
