@@ -15,14 +15,47 @@ function fetchStats() {
 }
 
 function displayStats(stats) {
-    var table = '<table border="1">';
-    table += '<tr><th>Year</th><th>PPG</th><th>APG</th><th>RPG</th></tr>';
+    var labels = stats.map(row => row.Year);
+    var ppgData = stats.map(row => parseFloat(row.PPG));
+    var apgData = stats.map(row => parseFloat(row.APG));
+    var rpgData = stats.map(row => parseFloat(row.RPG));
 
-    stats.forEach(function(row) {
-        table += `<tr><td>${row.YEAR}</td><td>${row.PPG}</td><td>${row.APG}</td><td>${row.RPG}</td></tr>`;
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'PPG',
+                    data: ppgData,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+                {
+                    label: 'APG',
+                    data: apgData,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    fill: false
+                },
+                {
+                    label: 'RPG',
+                    data: rpgData,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                }
+            }
+        }
     });
-
-    table += '</table>';
-
-    $('#statsTable').html(table);
 }
