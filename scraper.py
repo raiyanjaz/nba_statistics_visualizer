@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-def stat_scraper(first_name, formatted_name):
+def stat_scraper(formatted_name):
     url = f"https://www.basketball-reference.com/players/{formatted_name[0]}/{formatted_name}.html"
 
     response = requests.get(url)
@@ -22,17 +22,4 @@ def stat_scraper(first_name, formatted_name):
 
     player_stats = pd.DataFrame(stats, columns=['Year', 'PPG', 'APG', 'RPG'])
     player_stats.set_index('Year', inplace=True)
-
-    print(first_name)
-    print(player_stats)
-
-def main():
-    player_name = input('Enter the name of the player: ').lower()
-    first_name, last_name = player_name.split()
-
-    # Extract the first two letters of the first name and the first five letters of the last name
-    formatted_name = last_name[:5] + first_name[:2] + '01'
-
-    stat_scraper(first_name, formatted_name)
-
-main()
+    return player_stats
