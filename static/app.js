@@ -1,15 +1,29 @@
-var globalStats = []; // To store fetched stats data
+var globalStats1 = []; // To store fetched stats data for player 1
+var globalStats2 = []; // To store fetched stats data for player 2
 
 function fetchStats() {
-    var playerName = $('#playerName1').val();
+    var playerName1 = $('#playerName1').val();
+    var playerName2 = $('#playerName2').val();
 
     $.ajax({
-        url: '/get_stats/' + playerName,
+        url: '/get_stats1/' + playerName1,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            globalStats = data; // Store the fetched data globally
-            displayStats('PPG'); // Default display to PPG
+            globalStats1 = data; // Store the fetched data globally
+            displayStats('PPG', playerName1, playerName2); // Default display to PPG
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+    $.ajax({
+        url: '/get_stats2/' + playerName2,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            globalStats2 = data; // Store the fetched data globally
+            displayStats('PPG', playerName1, playerName2); // Default display to PPG
         },
         error: function(error) {
             console.log('Error:', error);
@@ -17,9 +31,16 @@ function fetchStats() {
     });
 }
 
-function displayStats(statType) {
-    var labels = globalStats.map((row, index) => index + 1);
-    var data = globalStats.map(row => parseFloat(row[statType]));
+function displayStats(statType, playerName1, playerName2) {
+
+    var labels1 = globalStats1.map((row, index) => index + 1);
+    var data1 = globalStats1.map(row => parseFloat(row[statType]));
+
+    var labels2 = globalStats2.map((row, index) => index + 1);
+    var data2 = globalStats2.map(row => parseFloat(row[statType]));
+
+    // Assuming you want to use the same labels for both, but adjust based on your data
+    var labels = labels1.length > labels2.length ? labels1 : labels2; // Use the longer set of labels
 
     var ctx = document.getElementById('myChart').getContext('2d');
     if(window.myChart instanceof Chart) {
@@ -30,10 +51,16 @@ function displayStats(statType) {
         data: {
             labels: labels,
             datasets: [{
-                label: statType,
-                data: data,
-                borderColor: getBorderColor(statType),
-                borderWidth: 1,
+                label: `${statType + playerName1}`,
+                data: data1,
+                borderColor: "red",
+                borderWidth: 3,
+                fill: false
+            },{
+                label: `${statType} ${playerName2}`,
+                data: data2,
+                borderColor: "blue",
+                borderWidth: 3,
                 fill: false
             }]
         },
@@ -55,17 +82,8 @@ function displayStats(statType) {
     });
 }
 
-function getBorderColor(statType) {
-    switch(statType) {
-        case 'PPG': return 'rgba(75, 192, 192, 1)';
-        case 'APG': return 'rgba(255, 99, 132, 1)';
-        case 'RPG': return 'rgba(54, 162, 235, 1)';
-        default: return 'rgba(0, 0, 0, 1)';
-    }
-}
-
 // Event listeners for buttons
-$('#ppgButton').click(function() { displayStats('PPG'); });
-$('#apgButton').click(function() { displayStats('APG'); });
-$('#rpgButton').click(function() { displayStats('RPG'); });
+$('#togglePPG').click(function() { displayStats('PPG'); });
+$('#toggleAPG').click(function() { displayStats('APG'); });
+$('#toggleRPG').click(function() { displayStats('RPG'); });
 
