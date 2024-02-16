@@ -26,5 +26,4 @@ def stat_scraper(formatted_name):
             stats.append([year, ppg.text, apg.text, rpg.text])
 
     player_stats = pd.DataFrame(stats, columns=['YEAR', 'PPG', 'APG', 'RPG'])
-    
     return player_stats

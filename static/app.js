@@ -1,12 +1,15 @@
+var globalStats = []; // To store fetched stats data
+
 function fetchStats() {
-    var playerName = $('#playerName').val();
+    var playerName = $('#playerName1').val();
 
     $.ajax({
         url: '/get_stats/' + playerName,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            displayStats(data);
+            globalStats = data; // Store the fetched data globally
+            displayStats('PPG'); // Default display to PPG
         },
         error: function(error) {
             console.log('Error:', error);
@@ -14,48 +17,55 @@ function fetchStats() {
     });
 }
 
-function displayStats(stats) {
-    var labels = stats.map(row => row.Year);
-    var ppgData = stats.map(row => parseFloat(row.PPG));
-    var apgData = stats.map(row => parseFloat(row.APG));
-    var rpgData = stats.map(row => parseFloat(row.RPG));
+function displayStats(statType) {
+    var labels = globalStats.map((row, index) => index + 1);
+    var data = globalStats.map(row => parseFloat(row[statType]));
 
     var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
+    if(window.myChart instanceof Chart) {
+        window.myChart.destroy(); // Destroy the existing chart instance before creating a new one
+    }
+    window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: 'PPG',
-                    data: ppgData,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'APG',
-                    data: apgData,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    fill: false
-                },
-                {
-                    label: 'RPG',
-                    data: rpgData,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1,
-                    fill: false
-                }
-            ]
+            datasets: [{
+                label: statType,
+                data: data,
+                borderColor: getBorderColor(statType),
+                borderWidth: 1,
+                fill: false
+            }]
         },
         options: {
             scales: {
                 x: {
-                    type: 'linear',
-                    position: 'bottom'
+                    type: 'linear', // Use 'linear' to ensure numbers are treated as continuous values
+                    ticks: {
+                        stepSize: 1, // Ensure ticks are shown at every integer value
+                        autoSkip: false, // Show every tick
+                    },
+                    title: {
+                        display: true,
+                        text: 'Year', // Title for the x-axis
+                    }
                 }
             }
         }
     });
 }
+
+function getBorderColor(statType) {
+    switch(statType) {
+        case 'PPG': return 'rgba(75, 192, 192, 1)';
+        case 'APG': return 'rgba(255, 99, 132, 1)';
+        case 'RPG': return 'rgba(54, 162, 235, 1)';
+        default: return 'rgba(0, 0, 0, 1)';
+    }
+}
+
+// Event listeners for buttons
+$('#ppgButton').click(function() { displayStats('PPG'); });
+$('#apgButton').click(function() { displayStats('APG'); });
+$('#rpgButton').click(function() { displayStats('RPG'); });
+
