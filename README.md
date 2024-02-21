@@ -28,18 +28,26 @@ The NBA Statistics Visualizer is an interactive web application designed to brin
 
 1. Clone the repository:
 
-   ````sh
-   git clone https://github.com/yourusername/basketball-statistics-visualizer.git```
-
-   ````
+   ```sh
+   git clone https://github.com/yourusername/basketball-statistics-visualizer.git
+   ```
 
 2. Install the required packages:
-   `pip install -r requirements.txt`
+
+   ```sh
+   pip install -r requirements.txt
+   ```
 
 3. Run the Flask application
-   `flask run`
 
-4. Access the web application at `http://127.0.0.1:5000/`.
+   ```sh
+   flask run
+   ```
+
+4. Access the web application at
+   ```sh
+   http://127.0.0.1:5000/
+   ```
 
 ## Usage
 
