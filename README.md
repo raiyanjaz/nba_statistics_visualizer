@@ -29,7 +29,7 @@ The NBA Statistics Visualizer is an interactive web application designed to brin
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/basketball-statistics-visualizer.git
+   git clone https://github.com/raiyanjaz/basketball-statistics-visualizer.git
    ```
 
 2. Install the required packages:

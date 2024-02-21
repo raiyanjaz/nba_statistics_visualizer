@@ -86,4 +86,5 @@ function displayStats(statType, playerName1, playerName2) {
 $('#togglePPG').click(function() { displayStats('PPG'); });
 $('#toggleAPG').click(function() { displayStats('APG'); });
 $('#toggleRPG').click(function() { displayStats('RPG'); });
-
+$('#toggleFG').click(function() { displayStats('FG%'); });
+$('#toggle3PT').click(function() { displayStats('3PT%'); });

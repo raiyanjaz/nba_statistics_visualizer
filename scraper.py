@@ -23,7 +23,17 @@ def stat_scraper(formatted_name):
             ppg = row.find('td', {'data-stat': 'pts_per_g'})
             apg = row.find('td', {'data-stat': 'ast_per_g'})
             rpg = row.find('td', {'data-stat': 'trb_per_g'})
-            stats.append([year, ppg.text, apg.text, rpg.text])
+            fg_pct = row.find('td', {'data-stat': 'fg_pct'}).text if row.find('td', {'data-stat': 'fg_pct'}) else '0'
+            fg3_pct = row.find('td', {'data-stat': 'fg3_pct'}).text if row.find('td', {'data-stat': 'fg3_pct'}) else '0'
+            
+            fg_pct = float(fg_pct) if fg_pct != '0' else 0.0
+            fg3_pct = float(fg3_pct) if fg3_pct != '0' else 0.0
 
-    player_stats = pd.DataFrame(stats, columns=['YEAR', 'PPG', 'APG', 'RPG'])
+            stats.append([year, ppg.text, apg.text, rpg.text, fg_pct, fg3_pct])
+
+
+    
+
+    player_stats = pd.DataFrame(stats, columns=['YEAR', 'PPG', 'APG', 'RPG', 'FG%', '3PT%'])
+    
     return player_stats
