@@ -1,9 +1,15 @@
 var globalStats1 = []; // To store fetched stats data for player 1
 var globalStats2 = []; // To store fetched stats data for player 2
 
+var globalPlayerName1 = ''; // To store player 1's name
+var globalPlayerName2 = ''; // To store player 2's name
+
 function fetchStats() {
     var playerName1 = $('#playerName1').val();
     var playerName2 = $('#playerName2').val();
+
+    globalPlayerName1 = playerName1;
+    globalPlayerName2 = playerName2;
 
     $.ajax({
         url: '/get_stats1/' + playerName1,
@@ -51,7 +57,7 @@ function displayStats(statType, playerName1, playerName2) {
         data: {
             labels: labels,
             datasets: [{
-                label: `${statType + playerName1}`,
+                label: `${statType} ${playerName1}`,
                 data: data1,
                 borderColor: "red",
                 borderWidth: 3,
@@ -83,8 +89,8 @@ function displayStats(statType, playerName1, playerName2) {
 }
 
 // Event listeners for buttons
-$('#togglePPG').click(function() { displayStats('PPG'); });
-$('#toggleAPG').click(function() { displayStats('APG'); });
-$('#toggleRPG').click(function() { displayStats('RPG'); });
-$('#toggleFG').click(function() { displayStats('FG%'); });
-$('#toggle3PT').click(function() { displayStats('3PT%'); });
+$('#togglePPG').click(function() { displayStats('PPG', globalPlayerName1, globalPlayerName2); });
+$('#toggleAPG').click(function() { displayStats('APG', globalPlayerName1, globalPlayerName2); });
+$('#toggleRPG').click(function() { displayStats('RPG', globalPlayerName1, globalPlayerName2); });
+$('#toggleFG').click(function() { displayStats('FG%', globalPlayerName1, globalPlayerName2); });
+$('#toggle3PT').click(function() { displayStats('3PT%', globalPlayerName1, globalPlayerName2); });
