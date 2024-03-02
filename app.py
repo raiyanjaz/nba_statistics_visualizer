@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/radar_chart')
+def radar_chart():
+    return render_template('radar_chart.html')
+
 @app.route('/get_stats1/<player_name1>')
 def get_stats1(player_name1):
     first_name, last_name = player_name1.split()
