@@ -1,29 +1,35 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="static/styles.css" />
-    <title>Basketball Stats</title>
-  </head>
-  <body>
-    <h1>Basketball Stats</h1>
-    <label for="playerName">Enter player name(s):</label>
-    <input type="text" id="playerName1" placeholder="e.g., LeBron James" />
-    <input type="text" id="playerName2" placeholder="e.g., LeBron James" />
-    <input type="text" id="playerName3" placeholder="e.g., LeBron James" />
-    <button onclick="fetchStats()">Get Stats</button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Basketball Stats Comparer</title>
+        <link rel="stylesheet" href="static/styles.css" />
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <h1>Basketball Stats Comparer</h1>
+        <label for="playerName1">Enter Player 1 Name:</label>
+        <input type="text" id="playerName1" placeholder="e.g., LeBron James" />
+        <label for="playerName2">Enter Player 2 Name:</label>
+        <input type="text" id="playerName2" placeholder="e.g., Kevin Durant" />
+        <button onclick="fetchStats()">Get Stats</button>
 
-    <button id="togglePPG">PPG</button>
-    <button id="toggleAPG">APG</button>
-    <button id="toggleRPG">RPG</button>
-    <button id="toggleFG">FG%</button>
-    <button id="toggle3PT">3PT%</button>
+        <div>
+            <button id="togglePPG">PPG</button>
+            <button id="toggleAPG">APG</button>
+            <button id="toggleRPG">RPG</button>
+            <button id="toggleFG">FG%</button>
+            <button id="toggle3PT">3PT%</button>
+        </div>
 
-    <div id="statsTable"></div>
-    <canvas id="myChart" width="400" height="400"></canvas>
+        <div id="chartContainer">
+            <canvas id="myChart" width="1000" height="1000"></canvas>
+            <canvas id="radarChart" width="1000" height="1000"></canvas>
+        </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="static/app.js"></script>
-  </body>
+        <script src="static/app.js"></script>
+        <script src="static/radarChart.js"></script>
+    </body>
 </html>

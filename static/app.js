@@ -71,6 +71,7 @@ function displayStats(statType, playerName1, playerName2) {
             }]
         },
         options: {
+            responsive: false,
             scales: {
                 x: {
                     type: 'linear', // Use 'linear' to ensure numbers are treated as continuous values

@@ -27,6 +27,10 @@ function fetchStats() {
         // Update global stats with the response data
         globalStats1 = response1[0]; // Assuming the data is the first item in the response array
         globalStats2 = response2[0]; // Adjust if your data structure is different
+        globalStats1[0]['FG%'] = globalStats1[0]['FG%'] * 100
+        globalStats1[0]['3PT%'] = globalStats1[0]['3PT%'] * 100
+        globalStats2[0]['FG%'] = globalStats2[0]['FG%'] * 100
+        globalStats2[0]['3PT%'] = globalStats2[0]['3PT%'] * 100
         createRadarChart(); // Now it's safe to create the radar chart
     }, function(err) {
         console.log('Error fetching stats:', err);
@@ -42,14 +46,14 @@ function createRadarChart() {
         datasets: [
             {
                 label: globalPlayerName1,
-                data: [globalStats1.PPG, globalStats1.APG, globalStats1.RPG, globalStats1.FG, globalStats1.TP], // Map your stats accordingly
+                data: [globalStats1[0].PPG, globalStats1[0].APG, globalStats1[0].RPG, globalStats1[0]['FG%'], globalStats1[0]['3PT%']], // Map your stats accordingly
                 backgroundColor: "rgba(255,99,132,0.2)",
                 borderColor: "rgba(255,99,132,1)",
                 pointBackgroundColor: "rgba(255,99,132,1)",
             },
             {
                 label: globalPlayerName2,
-                data: [globalStats2.PPG, globalStats2.APG, globalStats2.RPG, globalStats2.FG, globalStats2.TP], // Map your stats accordingly
+                data: [globalStats2[0].PPG, globalStats2[0].APG, globalStats2[0].RPG, globalStats2[0]['FG%'], globalStats2[0]['3PT%']], // Map your stats accordingly
                 backgroundColor: "rgba(54,162,235,0.2)",
                 borderColor: "rgba(54,162,235,1)",
                 pointBackgroundColor: "rgba(54,162,235,1)",
@@ -58,10 +62,11 @@ function createRadarChart() {
     };
 
     var ctx = document.getElementById("radarChart").getContext("2d");
-    var myRadarChart = new Chart(ctx, {
+    window.radarChart = new Chart(ctx, {
         type: 'radar',
         data: data,
         options: {
+            responsive: false,
             scale: {
                 angleLines: {
                     display: true
