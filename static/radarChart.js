@@ -1,15 +1,9 @@
 // Assuming global variables to store player names and stats
 var globalPlayerName1 = '';
-var globalPlayerName2 = '';
 var globalStats1 = [];
-var globalStats2 = [];
 
-function fetchStats() {
-    var playerName1 = $('#playerName1').val();
-    var playerName2 = $('#playerName2').val();
-
-    globalPlayerName1 = playerName1;
-    globalPlayerName2 = playerName2;
+function fetchNewStats() {
+    globalPlayerName1 = $('#playerName1').val();
 
     // Wait for both AJAX calls to complete
     $.when(
@@ -78,7 +72,3 @@ function createRadarChart() {
         }
     });
 }
-
-
-
-

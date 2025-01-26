@@ -1,35 +1,17 @@
 var globalStats1 = []; // To store fetched stats data for player 1
-var globalStats2 = []; // To store fetched stats data for player 2
 
 var globalPlayerName1 = ''; // To store player 1's name
-var globalPlayerName2 = ''; // To store player 2's name
 
 function fetchStats() {
-    var playerName1 = $('#playerName1').val();
-    var playerName2 = $('#playerName2').val();
-
-    globalPlayerName1 = playerName1;
-    globalPlayerName2 = playerName2;
-
+    globalPlayerName1 = $('#playerName').val();
     $.ajax({
-        url: '/get_stats1/' + playerName1,
+        url: '/get_stats/' + globalPlayerName1,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
+            console.log(data);
             globalStats1 = data; // Store the fetched data globally
-            displayStats('PPG', playerName1, playerName2); // Default display to PPG
-        },
-        error: function(error) {
-            console.log('Error:', error);
-        }
-    });
-    $.ajax({
-        url: '/get_stats2/' + playerName2,
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            globalStats2 = data; // Store the fetched data globally
-            displayStats('PPG', playerName1, playerName2); // Default display to PPG
+            displayStats('PPG', globalPlayerName1); // Default display to PPG
         },
         error: function(error) {
             console.log('Error:', error);
@@ -37,16 +19,15 @@ function fetchStats() {
     });
 }
 
-function displayStats(statType, playerName1, playerName2) {
+function displayStats(statType, playerName1) {
 
     var labels1 = globalStats1.map((row, index) => index + 1);
-    var data1 = globalStats1.map(row => parseFloat(row[statType]));
-
-    var labels2 = globalStats2.map((row, index) => index + 1);
-    var data2 = globalStats2.map(row => parseFloat(row[statType]));
-
-    // Assuming you want to use the same labels for both, but adjust based on your data
-    var labels = labels1.length > labels2.length ? labels1 : labels2; // Use the longer set of labels
+    
+    var data1 = [];
+    
+    for (let i = 0; i < labels1.length; i++) {
+        data1.push(globalStats1[i]["PTS"]);
+    }
 
     var ctx = document.getElementById('myChart').getContext('2d');
     if(window.myChart instanceof Chart) {
@@ -55,17 +36,11 @@ function displayStats(statType, playerName1, playerName2) {
     window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: labels1,
             datasets: [{
                 label: `${statType} ${playerName1}`,
                 data: data1,
                 borderColor: "red",
-                borderWidth: 3,
-                fill: false
-            },{
-                label: `${statType} ${playerName2}`,
-                data: data2,
-                borderColor: "blue",
                 borderWidth: 3,
                 fill: false
             }]
@@ -90,8 +65,8 @@ function displayStats(statType, playerName1, playerName2) {
 }
 
 // Event listeners for buttons
-$('#togglePPG').click(function() { displayStats('PPG', globalPlayerName1, globalPlayerName2); });
-$('#toggleAPG').click(function() { displayStats('APG', globalPlayerName1, globalPlayerName2); });
-$('#toggleRPG').click(function() { displayStats('RPG', globalPlayerName1, globalPlayerName2); });
-$('#toggleFG').click(function() { displayStats('FG%', globalPlayerName1, globalPlayerName2); });
-$('#toggle3PT').click(function() { displayStats('3PT%', globalPlayerName1, globalPlayerName2); });
+// $('#togglePPG').click(function() { displayStats('PPG', globalPlayerName1, globalPlayerName2); });
+// $('#toggleAPG').click(function() { displayStats('APG', globalPlayerName1, globalPlayerName2); });
+// $('#toggleRPG').click(function() { displayStats('RPG', globalPlayerName1, globalPlayerName2); });
+// $('#toggleFG').click(function() { displayStats('FG%', globalPlayerName1, globalPlayerName2); });
+// $('#toggle3PT').click(function() { displayStats('3PT%', globalPlayerName1, globalPlayerName2); });
